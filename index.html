@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brett Young</title>
+<style>
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 140px; /* Even and increased space for top and left */
+    background-color: #f4f4f4; /* Solid color background */
+    color: #333;
+}
+h1 {
+    font-size: 16px; /* Slightly larger but not bold */
+    color: #222; /* Darker than other text */
+    margin: 0 0 10px 0;
+    font-weight: normal; /* Not bold */
+}
+p, footer {
+    font-size: 14px; /* Uniform text size for the rest */
+    margin: 0 0 10px 0; /* Space below each element */
+}
+footer a {
+    color: #666; /* Grey color for links */
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+/* Terminal Widget Styles */
+#terminal {
+    width: 900px;
+    height: 80px;
+    overflow-y: scroll;
+    padding: 10px;
+    display: flex;
+    flex-direction: column; /* Ensure content order is from top to bottom */
+    box-sizing: border-box;
+    background-color: #f4f4f4;
+    font-family: 'Courier New', monospace;
+    color: black;
+    font-size: 16px;
+    font-weight: normal;
+}
+#inputContainer {
+    display: flex;
+    width: 600px;
+    align-items: center;
+    margin-top: 5px;
+}
+#input {
+    flex-grow: 1;
+    padding: 5px;
+    font-family: 'Courier New', monospace; /* Set input text font to Courier New */
+    border: none;
+    outline: none;
+    background-color: transparent;
+    animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+#prompt {
+    white-space: pre;
+    margin-right: 5px;
+}
+</style>
+</head>
+<body onload="document.getElementById('input').focus();">
+<h1>Brett Young</h1>
+<p>Most days you can find me coding, writing, or playing sports!</p>
+<footer>
+<a href="https://twitter.com/BrettYoung3d"> x.com</a> |
+<a href="https://www.linkedin.com/in/brett-young-aa594b142/"> Linkedout</a> |
+<a href="https://wandb.ai/byyoung3"> ai writing</a> |
+<a href="https://github.com/bdytx5"> git</a>
+</footer>
+
+<!-- Terminal Widget -->
+<div id="inputContainer">
+    <span id="prompt" style="font-family: 'Courier New', monospace;">brett@noTabs ~$</span>
+    <input type="text" id="input" onkeypress="handleInput(event)">
+</div>
+<div id="terminal"></div>
+
+<script>
+const terminal = document.getElementById('terminal');
+const input = document.getElementById('input');
+const files = {
+    'readme.txt': 'congrats ur a nerd'
+};
+
+function handleInput(event) {
+    if (event.key === 'Enter') {
+        const command = input.value.trim();
+        input.value = '';
+        const [cmd, arg] = command.split(' ');
+
+        let output = `<pre>brett@idk:~$ ${command}\n`;
+
+        if (cmd === 'clear') {
+            terminal.innerHTML = '';
+            return;
+        } else if (cmd === 'ls') {
+            output += Object.keys(files).join('\\n');
+        } else if (cmd === 'cat') {
+            if (arg in files) {
+                output += files[arg];
+            } else {
+                output += `File not found: ${arg}`;
+            }
+        } else {
+            output += `Unknown command: ${cmd}`;
+        }
+
+        output += '</pre>';
+        terminal.innerHTML += output; // Append at the bottom
+        terminal.scrollTop = terminal.scrollHeight; // Scroll to bottom
+    }
+}
+</script>
+</body>
+</html>
