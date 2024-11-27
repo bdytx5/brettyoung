@@ -8,34 +8,32 @@
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
-    padding: 140px; /* Even and increased space for top and left */
-    background-color: #f4f4f4; /* Solid color background */
+    padding: 140px;
+    background-color: #f4f4f4;
     color: #333;
 }
 h1 {
-    font-size: 16px; /* Slightly larger but not bold */
-    color: #222; /* Darker than other text */
+    font-size: 16px;
+    color: #222;
     margin: 0 0 10px 0;
-    font-weight: normal; /* Not bold */
+    font-weight: normal;
 }
 p, footer {
-    font-size: 14px; /* Uniform text size for the rest */
-    margin: 0 0 10px 0; /* Space below each element */
+    font-size: 14px;
+    margin: 0 0 10px 0;
 }
 footer a {
-    color: #666; /* Grey color for links */
+    color: #666;
     text-decoration: none;
     margin-right: 10px;
 }
-
-/* Terminal Widget Styles */
 #terminal {
     width: 900px;
     height: 80px;
     overflow-y: scroll;
     padding: 10px;
     display: flex;
-    flex-direction: column; /* Ensure content order is from top to bottom */
+    flex-direction: column;
     box-sizing: border-box;
     background-color: #f4f4f4;
     font-family: 'Courier New', monospace;
@@ -52,10 +50,11 @@ footer a {
 #input {
     flex-grow: 1;
     padding: 5px;
-    font-family: 'Courier New', monospace; /* Set input text font to Courier New */
+    font-family: 'Courier New', monospace;
     border: none;
     outline: none;
     background-color: transparent;
+    color: black; /* Default to black text */
     animation: blink 1s step-end infinite;
 }
 @keyframes blink {
@@ -71,10 +70,10 @@ footer a {
 <h1>Brett Young</h1>
 <p>Most days you can find me coding, writing, or playing sports!</p>
 <footer>
-<a href="https://twitter.com/BrettYoung3d"> x.com</a> |
-<a href="https://www.linkedin.com/in/brett-young-aa594b142/"> Linkedout</a> |
-<a href="https://wandb.ai/byyoung3"> ai writing</a> |
-<a href="https://github.com/bdytx5"> git</a>
+<a href="https://twitter.com/BrettYoung3d">x.com</a> |
+<a href="https://www.linkedin.com/in/brett-young-aa594b142/">Linkedout</a> |
+<a href="https://wandb.ai/byyoung3">ai writing</a> |
+<a href="https://github.com/bdytx5">git</a>
 </footer>
 
 <!-- Terminal Widget -->
@@ -97,13 +96,14 @@ function handleInput(event) {
         input.value = '';
         const [cmd, arg] = command.split(' ');
 
-        let output = `<pre>brett@idk:~$ ${command}\n`;
+        let output = `<pre style="color: white;">brett@idk:~$ ${command}\n`;
 
         if (cmd === 'clear') {
             terminal.innerHTML = '';
             return;
         } else if (cmd === 'ls') {
             output += Object.keys(files).join('\\n');
+            toggleDarkMode(); // Enable dark mode when "ls" is typed
         } else if (cmd === 'cat') {
             if (arg in files) {
                 output += files[arg];
@@ -115,9 +115,34 @@ function handleInput(event) {
         }
 
         output += '</pre>';
-        terminal.innerHTML += output; // Append at the bottom
-        terminal.scrollTop = terminal.scrollHeight; // Scroll to bottom
+        terminal.innerHTML += output;
+        terminal.scrollTop = terminal.scrollHeight;
     }
+}
+
+function toggleDarkMode() {
+    document.body.style.backgroundColor = '#121212';
+    document.body.style.color = '#FFFFFF';
+
+    // Update terminal background and text color
+    terminal.style.backgroundColor = '#1e1e1e';
+    terminal.style.color = '#FFFFFF';
+
+    // Update input field to display white text
+    input.style.color = '#FFFFFF';
+    input.style.backgroundColor = 'transparent'; // Ensure no background overrides
+
+    // Update links to white
+    const links = document.querySelectorAll('footer a');
+    links.forEach(link => {
+        link.style.color = '#FFFFFF';
+    });
+
+    // Update header and paragraph text color
+    const h1 = document.querySelector('h1');
+    const p = document.querySelector('p');
+    h1.style.color = '#FFFFFF';
+    p.style.color = '#FFFFFF';
 }
 </script>
 </body>
