@@ -98,12 +98,13 @@ function handleInput(event) {
 
         let output = `<pre style="color: white;">brett@idk:~$ ${command}\n`;
 
+        toggleDarkMode(); // Enable dark mode for any command
+
         if (cmd === 'clear') {
             terminal.innerHTML = '';
             return;
         } else if (cmd === 'ls') {
             output += Object.keys(files).join('\\n');
-            toggleDarkMode(); // Enable dark mode when "ls" is typed
         } else if (cmd === 'cat') {
             if (arg in files) {
                 output += files[arg];
@@ -119,6 +120,7 @@ function handleInput(event) {
         terminal.scrollTop = terminal.scrollHeight;
     }
 }
+
 
 function toggleDarkMode() {
     document.body.style.backgroundColor = '#121212';
